@@ -1,5 +1,5 @@
 // Write your JavaScript code here!
-window.addEventListener("load", function(event){
+window.addEventListener("load", function(){
    let button = document.getElementById("formSubmit");
    button.addEventListener("click", function(event){
       let pilotName = String(document.querySelector("input[id=pilotName]").value);
@@ -27,13 +27,13 @@ window.addEventListener("load", function(event){
 
          let pilotStatus = document.getElementById("pilotStatus");
          let copilotStatus = document.getElementById("copilotStatus");
-         pilotStatus.innerHTML = `${pilotName} Ready`;
-         copilotStatus.innerHTML = `${copilotName} Ready`;
+         pilotStatus.innerHTML = `Pilot ${pilotName} is ready for launch`;
+         copilotStatus.innerHTML = `Co-pilot ${copilotName} is ready for launch`;
 
          if (fuelLevel < 10000){
             document.getElementById("faultyItems").style.visibility = "visible";
             let fuelStatus = document.getElementById("fuelStatus");
-            fuelStatus.innerHTML = `Fuel level NOT high enough for launch`;
+            fuelStatus.innerHTML = `Fuel level TOO LOW for launch`;
             let launchStatus = document.getElementById("launchStatus");
             launchStatus.innerHTML = "Shuttle not ready for launch";
             launchStatus.style.color = "red";
@@ -61,19 +61,21 @@ window.addEventListener("load", function(event){
 
    });
 
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response){
+      response.json().then(function(json){
+         const div = document.getElementById("missionTarget");
+         div.innerHTML = `
+            <h2>Mission Destination</h2>
+            <ol>
+               <li>Name: ${json[0].name}</li>
+               <li>Diameter: ${json[0].diameter}</li>
+               <li>Star: ${json[0].star}</li>
+               <li>Distance from Earth: ${json[0].distance}</li>
+               <li>Number of Moons: ${json[0].moons}</li>
+            </ol>
+            <img src="${json[0].image}">
+         `;
+      });
+   });
+
 });
-
-
-
-
-/* This block of code shows how to format the HTML once you fetch some planetary JSON!
-<h2>Mission Destination</h2>
-<ol>
-   <li>Name: ${}</li>
-   <li>Diameter: ${}</li>
-   <li>Star: ${}</li>
-   <li>Distance from Earth: ${}</li>
-   <li>Number of Moons: ${}</li>
-</ol>
-<img src="${}">
-*/
